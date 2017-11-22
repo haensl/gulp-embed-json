@@ -1,0 +1,48 @@
+{
+  "name": "gulp-embed-json",
+  "version": "1.0.0",
+  "description": "Gulp plugin to inline/embed JSON data into HTML files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "tdd": "mocha --watch",
+    "lint": "eslint ./**/*.js"
+  },
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haensl/gulp-embed-json.git"
+  },
+  "keywords": [
+    "gulp",
+    "gulpplugin",
+    "gulp-plugin",
+    "inline",
+    "embed",
+    "json",
+    "html"
+  ],
+  "author": {
+    "name": "HP Dietz",
+    "email": "<h.p.dietz@gmail.com>",
+    "twitter": "@h_p_d"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haensl/gulp-embed-json/issues"
+  },
+  "homepage": "https://github.com/haensl/gulp-embed-json#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.11.0",
+    "gulp": "^3.9.1",
+    "mocha": "^4.0.1"
+  }
+}
