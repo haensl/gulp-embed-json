@@ -21,7 +21,7 @@ describe('gulp-embed-json', () => {
       });
 
       it('inserts the JSON data into the script tag', () => {
-        expect(/"foo": "bar"/.test(output)).to.be.true;
+        expect(/"foo":"bar"/.test(output)).to.be.true;
       });
 
       it('removes the src attribute', () => {
@@ -40,7 +40,7 @@ describe('gulp-embed-json', () => {
       });
 
       it('inserts the JSON data into the script tag', () => {
-        expect(/"foo": "bar"/.test(output)).to.be.true;
+        expect(/"foo":"bar"/.test(output)).to.be.true;
       });
 
       it('removes the src attribute', () => {
@@ -100,7 +100,7 @@ describe('gulp-embed-json', () => {
         });
 
         it('processes scripts with the given mime type', () => {
-          expect(/type="foo\/bar">{ "foo": "bar" }/.test(output)).to.be.true;
+          expect(/type="foo\/bar">{"foo":"bar"}/.test(output)).to.be.true;
         });
 
         it('does not process scripts with different mime type', () => {
@@ -121,7 +121,7 @@ describe('gulp-embed-json', () => {
         });
 
         it('processes scripts with the given mime type', () => {
-          expect(/type="foo\/bar">{ "foo": "bar" }/.test(output)).to.be.true;
+          expect(/type="foo\/bar">{"foo":"bar"}/.test(output)).to.be.true;
         });
 
         it('does not process scripts with different mime type', () => {
@@ -158,7 +158,7 @@ describe('gulp-embed-json', () => {
           });
 
           it('searches for the json file in the given folder', () => {
-            expect(/{ "foo": "bar" }/.test(output)).to.be.true;
+            expect(/{"foo":"bar"}/.test(output)).to.be.true;
           });
         });
 
@@ -184,6 +184,56 @@ describe('gulp-embed-json', () => {
       });
     });
 
+    describe('minify', () => {
+      describe('boolean', () => {
+        let output;
+        describe('true', () => {
+          beforeEach((done) => {
+            gulp.src(fixtures('json.html'))
+              .pipe(embedJSON({
+                minify: true
+              }))
+              .pipe(through.obj((file) => {
+                output = file.contents.toString();
+                done();
+              }));
+          });
+
+          it('minifies the json data', () => {
+            expect(/{"foo":"bar"}/.test(output)).to.be.true;
+          });
+        });
+
+        describe('false', () => {
+          beforeEach((done) => {
+            gulp.src(fixtures('json.html'))
+              .pipe(embedJSON({
+                minify: false
+              }))
+              .pipe(through.obj((file) => {
+                output = file.contents.toString();
+                done();
+              }));
+          });
+
+          it('does not minify the json data', () => {
+            expect(/{ "foo": "bar" }/.test(output)).to.be.true;
+          });
+        });
+      });
+
+      describe('non-boolean', () => {
+        it('throws an exception', () => {
+          expect(() => gulp.src(fixtures('json.html'))
+            .pipe(embedJSON({
+              minify: {
+                foo: 'bar'
+              }
+            }))).to.throw;
+        });
+      });
+    });
+
     describe('encoding', () => {
       describe('string', () => {
         let output;
@@ -200,7 +250,7 @@ describe('gulp-embed-json', () => {
         });
 
         it('inserts the JSON data into the script tag', () => {
-          expect(/"foo": "bar"/.test(output)).to.be.true;
+          expect(/"foo":"bar"/.test(output)).to.be.true;
         });
 
         it('removes the src attribute', () => {

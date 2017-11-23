@@ -10,6 +10,7 @@ const defaults = {
     'application/ld+json'
   ],
   root: __dirname,
+  minify: true,
   encoding: 'utf8'
 };
 
@@ -40,6 +41,10 @@ module.exports = (opts = {}) =>
       return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: mimeTypes must be string or Array<string>.'));
     }
 
+    if (typeof options.minify !== 'boolean') {
+      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: minify must be a boolean.'));
+    }
+
     if (typeof options.encoding !== 'string') {
       return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: encoding must be a string.'));
     }
@@ -59,10 +64,12 @@ module.exports = (opts = {}) =>
         && fs.statSync(absSrc).isFile()) {
         try {
           const jsonData = fs.readFileSync(absSrc, options.encoding);
-          el.empty()
-            .text(jsonData)
-            .attr('src', null);
-          didEmbed = true;
+          if (jsonData.length) {
+            el.empty()
+              .text(options.minify ? JSON.stringify(JSON.parse(jsonData)) : jsonData)
+              .attr('src', null);
+            didEmbed = true;
+          }
         } catch(err) {
           error = new gutil.PluginError(PLUGIN_NAME, err);
           return false;
