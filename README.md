@@ -48,6 +48,15 @@ HTML layout
 </html>
 ```
 
+structured-data.json
+```json
+{
+  "@context": "http://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "gulp-embed-json"
+}
+```
+
 Gulp task
 ```javascript
 const embedJSON = requrie('gulp-embed-json');
@@ -69,7 +78,7 @@ Output
   <body>
     <!-- ... -->
     <script type="application/json" src="data.json"></script>
-    <script type="application/ld+json"><!-- contents of structured-data.json --></script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"SoftwareApplication","name":"gulp-embed-json"}</script>
     <!-- ... -->
   </body>
 </html>
@@ -97,6 +106,7 @@ HTML layout
 </html>
 ```
 
+
 Folder structure
 ```shell
 /src
@@ -119,6 +129,108 @@ gulp.task('embedJSON', () =>
       root: './assets/json'
     }))
     .pipe(gulp.dest('dist/')));
+```
+
+### minify `boolean`
+
+Indicate whether or not to minify JSON data.
+
+#### default: `true`
+
+#### Example: Minify
+
+HTML layout
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <script type="application/json" src="data.json"></script>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+data.json
+```json
+{
+  "foo": "bar"
+}
+```
+
+Gulp task
+```javascript
+const embedJSON = requrie('gulp-embed-json');
+
+// ...
+
+gulp.task('embedJSON', () =>
+  gulp.src('*.html')
+    .pipe(embedJSON({
+      minify: true // default
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <script type="application/json">{"foo":"bar"}</script>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+#### Example: Do not Minify
+
+HTML layout
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <script type="application/json" src="data.json"></script>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+data.json
+```json
+{
+  "foo": "bar"
+}
+```
+
+Gulp task
+```javascript
+const embedJSON = requrie('gulp-embed-json');
+
+// ...
+
+gulp.task('embedJSON', () =>
+  gulp.src('*.html')
+    .pipe(embedJSON({
+      minify: false
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <script type="application/json">{
+    "foo": "bar"
+    }</script>
+    <!-- ... -->
+  </body>
+</html>
 ```
 
 ### encoding `string`
