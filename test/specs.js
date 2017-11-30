@@ -4,7 +4,11 @@ const gulp = require('gulp');
 const through = require('through2');
 const fs = require('fs');
 const embedJSON = require('../');
+
 const fixtures = (glob) => join(__dirname, 'fixtures', glob);
+
+const invalidOptionRegex = /invalid option/i;
+const isInvalidOption = (str) => invalidOptionRegex.test(str);
 
 describe('gulp-embed-json', () => {
   describe('script with src attribute', () => {
@@ -75,9 +79,19 @@ describe('gulp-embed-json', () => {
   });
 
   describe('nonexistent src', () => {
-    it('throws an exception', () => {
-      expect(() => gulp.src(fixtures('nonexistent-src.html'))
-        .pipe(embedJSON())).to.throw;
+    let error;
+    
+    beforeEach((done) => {
+      gulp.src(fixtures('nonexistent-src.html'))
+        .pipe(embedJSON())
+        .on('error', (err) => {
+          error = err;
+          done();
+        }).on('end', done);
+    });
+
+    it('emits an invalid source error', () => {
+      expect(/invalid source/i.test(error.message)).to.be.true;
     });
   });
 
@@ -130,13 +144,22 @@ describe('gulp-embed-json', () => {
       });
 
       describe('non string or Array<string>', () => {
-        it('throws an exception', () => {
-          expect(() => gulp.src(fixtures('opt-mime.html'))
+        let error;
+
+        beforeEach((done) => {
+          gulp.src(fixtures('opt-mime.html'))
             .pipe(embedJSON({
               mimeTypes: {
                 foo: 'bar'
               }
-            }))).to.throw;
+            })).on('error', (err) => {
+              error = err;
+              done();
+            }).on('end', done);
+        });
+
+        it('emits an invalid option error', () => {
+          expect(isInvalidOption(error.message)).to.be.true;
         });
       });
     });
@@ -163,23 +186,41 @@ describe('gulp-embed-json', () => {
         });
 
         describe('invalid path', () => {
-          it('throws an exception', () => {
-            expect(() => gulp.src(fixtures('opt-root.html'))
+          let error;
+          
+          beforeEach((done) => {
+            gulp.src(fixtures('opt-root.html'))
               .pipe(embedJSON({
                 root: './test/does-not-exist'
-              }))).to.throw;
+              })).on('error', (err) => {
+                error = err;
+                done();
+              }).on('end', done);
+          });
+
+          it('emits an invalid option error', () => {
+            expect(isInvalidOption(error.message)).to.be.true;
           });
         });
       });
 
       describe('non string', () => {
-        it('throws an exception', () => {
-          expect(() => gulp.src(fixtures('opt-root.html'))
+        let error;
+        
+        beforeEach((done) => {
+          gulp.src(fixtures('opt-root.html'))
             .pipe(embedJSON({
               root: {
                 foo: 'bar'
               }
-            }))).to.throw;
+            })).on('error', (err) => {
+              error = err;
+              done();
+            }).on('end', done);
+        });
+
+        it('emits an invalid option error', () => {
+          expect(isInvalidOption(error.message)).to.be.true;
         });
       });
     });
@@ -223,13 +264,22 @@ describe('gulp-embed-json', () => {
       });
 
       describe('non-boolean', () => {
-        it('throws an exception', () => {
-          expect(() => gulp.src(fixtures('json.html'))
+        let error;
+        
+        beforeEach((done) => {
+          gulp.src(fixtures('json.html'))
             .pipe(embedJSON({
               minify: {
                 foo: 'bar'
               }
-            }))).to.throw;
+            })).on('error', (err) => {
+              error = err;
+              done();
+            });
+        });
+
+        it('emits an invalid option error', () => {
+          expect(isInvalidOption(error.message)).to.be.true;
         });
       });
     });
@@ -259,15 +309,25 @@ describe('gulp-embed-json', () => {
       });
 
       describe('non string', () => {
-        it('throws an exception', () => {
-          expect(() => gulp.src(fixtures('json.html'))
+        let error;
+
+        beforeEach((done) => {
+          gulp.src(fixtures('json.html'))
             .pipe(embedJSON({
               encoding: {
                 foo: 'bar'
               }
-            }))).to.throw;
+            })).on('error', (err) => {
+              error = err;
+              done();
+            }).on('end', done);
+        });
+
+        it('emits an invalid option error', () => {
+          expect(isInvalidOption(error.message)).to.be.true;
         });
       });
     });
   });
 });
+
