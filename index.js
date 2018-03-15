@@ -1,5 +1,5 @@
 const through = require('through2');
-const cheerio = require('cheerio');
+const embedJson = require('embed-json');
 const gutil = require('gulp-util');
 const fs = require('fs');
 const path = require('path');
@@ -49,43 +49,10 @@ module.exports = (opts = {}) =>
       return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: encoding must be a string.'));
     }
 
-    const $ = cheerio.load(file.contents.toString());
-    const selectors = options.mimeTypes.reduce((prev, type) =>
-        `${prev.length ? `${prev}, ` : ''}script[type="${type}"][src$=".json"]`, '');
-    let didEmbed = false;
-    let error;
-    $(selectors).each((index, element) => {
-      const el = $(element);
-      const src = el.attr('src');
-      const absSrc = path.resolve(path.join(options.root, src));
-
-      if (src
-        && fs.existsSync(absSrc)
-        && fs.statSync(absSrc).isFile()) {
-        try {
-          const jsonData = fs.readFileSync(absSrc, options.encoding);
-          if (jsonData.length) {
-            el.empty()
-              .text(options.minify ? JSON.stringify(JSON.parse(jsonData)) : jsonData)
-              .attr('src', null);
-            didEmbed = true;
-          }
-        } catch(err) {
-          error = new gutil.PluginError(PLUGIN_NAME, err);
-          return false;
-        }
-      } else {
-        error = new gutil.PluginError(PLUGIN_NAME, `Invalid source path: ${src}`);
-        return false;
-      }
-    });
-
-    if (error) {
-      return callback(error);
-    }
-
-    if (didEmbed) {
-      file.contents = new Buffer($.html());
+    try {
+      file.contents = new Buffer(embedJson(file.contents.toString(), options));
+    } catch (err) {
+      return callback(new gutil.PluginError(PLUGIN_NAME, err));
     }
 
     callback(null, file);

@@ -1,3 +1,6 @@
+# 1.3.0
+* [#9: Use embed-json to avoid side effects of cheerio.](https://github.com/haensl/gulp-embed-json/issues/9)
+
 # 1.2.1
 * [#7: Fix error unit tests.](https://github.com/haensl/gulp-embed-json/issues/7)
 
