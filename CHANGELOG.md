@@ -1,3 +1,6 @@
+## 1.4.1
+* [#14: Update dependencies.](https://github.com/haensl/gulp-embed-json/issues/14)
+
 ## 1.4.0
 * [#12: Integrate CD.](https://github.com/haensl/gulp-embed-json/issues/12)
 * [#11: Update dependencies.](https://github.com/haensl/gulp-embed-json/issues/11)
