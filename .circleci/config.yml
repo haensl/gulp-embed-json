@@ -188,13 +188,13 @@ jobs:
           command: |
             npm i -S ~/gulp-embed-json/gulp-embed-json.tgz
       - run:
-          name: create main project file
-          command: touch index.js
+          name: create bundle test
+          command: echo "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');" > bundle.test.js
       - run:
-          name: test module exports function
+          name: test bundle
           working_directory: /tmp/test-app
           command: |
-            node -e "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');"
+            node bundle.test.js
 
   ensure-versioned-correctly:
     docker:
@@ -257,10 +257,13 @@ jobs:
           name: create main project file
           command: touch index.js
       - run:
-          name: test module exports function
+          name: create test
+          echo "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');" > package.test.js
+      - run:
+          name: test package
           working_directory: /tmp/test-app
           command: |
-            node -e "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');"
+            node package.test.js
       - package-information
 
   publish-github-release:
