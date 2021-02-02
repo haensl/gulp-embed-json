@@ -80,7 +80,7 @@ describe('gulp-embed-json', () => {
 
   describe('nonexistent src', () => {
     let error;
-    
+
     beforeEach((done) => {
       gulp.src(fixtures('nonexistent-src.html'))
         .pipe(embedJSON())
@@ -187,7 +187,7 @@ describe('gulp-embed-json', () => {
 
         describe('invalid path', () => {
           let error;
-          
+
           beforeEach((done) => {
             gulp.src(fixtures('opt-root.html'))
               .pipe(embedJSON({
@@ -206,7 +206,7 @@ describe('gulp-embed-json', () => {
 
       describe('non string', () => {
         let error;
-        
+
         beforeEach((done) => {
           gulp.src(fixtures('opt-root.html'))
             .pipe(embedJSON({
@@ -265,7 +265,7 @@ describe('gulp-embed-json', () => {
 
       describe('non-boolean', () => {
         let error;
-        
+
         beforeEach((done) => {
           gulp.src(fixtures('json.html'))
             .pipe(embedJSON({

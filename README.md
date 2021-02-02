@@ -5,7 +5,7 @@ Gulp plugin to inline/embed JSON data into HTML files.
 [![NPM](https://nodei.co/npm/gulp-embed-json.png?downloads=true)](https://nodei.co/npm/gulp-embed-json/)
 
 [![npm version](https://badge.fury.io/js/gulp-embed-json.svg)](http://badge.fury.io/js/gulp-embed-json)
-[![Build Status](https://travis-ci.org/haensl/gulp-embed-json.svg?branch=master)](https://travis-ci.org/haensl/gulp-embed-json)
+[![CircleCI](https://circleci.com/gh/haensl/gulp-embed-json.svg?style=svg)](https://circleci.com/gh/haensl/gulp-embed-json)
 
 ## Installation
 
