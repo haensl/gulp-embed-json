@@ -189,6 +189,7 @@ jobs:
             npm i -S ~/gulp-embed-json/gulp-embed-json.tgz
       - run:
           name: create bundle test
+          working_directory: /tmp/test-app
           command: echo "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');" > bundle.test.js
       - run:
           name: test bundle
@@ -254,10 +255,8 @@ jobs:
           command: |
             npm i -S gulp-embed-json
       - run:
-          name: create main project file
-          command: touch index.js
-      - run:
           name: create package test
+          working_directory: /tmp/test-app
           command: echo "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');" > package.test.js
       - run:
           name: test package
