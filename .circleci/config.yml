@@ -188,6 +188,9 @@ jobs:
           command: |
             npm i -S ~/gulp-embed-json/gulp-embed-json.tgz
       - run:
+          name: create main project file
+          command: touch index.js
+      - run:
           name: test module exports function
           working_directory: /tmp/test-app
           command: |
@@ -250,6 +253,9 @@ jobs:
           working_directory: /tmp/test-app
           command: |
             npm i -S gulp-embed-json
+      - run:
+          name: create main project file
+          command: touch index.js
       - run:
           name: test module exports function
           working_directory: /tmp/test-app
