@@ -257,8 +257,8 @@ jobs:
           name: create main project file
           command: touch index.js
       - run:
-          name: create test
-          echo "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');" > package.test.js
+          name: create package test
+          command: echo "const gulpEmbedJson = require('gulp-embed-json'); const assert = require('assert').strict; assert.deepEqual(typeof gulpEmbedJson, 'function');" > package.test.js
       - run:
           name: test package
           working_directory: /tmp/test-app
