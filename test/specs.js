@@ -1,9 +1,9 @@
-const join = require('path').join;
+const { join, resolve } = require('path');
 const expect = require('chai').expect;
 const gulp = require('gulp');
 const through = require('through2');
 const fs = require('fs');
-const embedJSON = require('../');
+const embedJSON = require('../lib');
 
 const fixtures = (glob) => join(__dirname, 'fixtures', glob);
 
@@ -17,7 +17,9 @@ describe('gulp-embed-json', () => {
     describe('and mime type application/json', () => {
       beforeEach((done) => {
         gulp.src(fixtures('json.html'))
-          .pipe(embedJSON())
+          .pipe(embedJSON({
+            root: resolve(join(__dirname, '../'))
+          }))
           .pipe(through.obj((file) => {
             output = file.contents.toString();
             done();
@@ -36,7 +38,9 @@ describe('gulp-embed-json', () => {
     describe('and mime type application/ld+json', () => {
       beforeEach((done) => {
         gulp.src(fixtures('ld+json.html'))
-          .pipe(embedJSON())
+          .pipe(embedJSON({
+            root: resolve(join(__dirname, '../'))
+          }))
           .pipe(through.obj((file) => {
             output = file.contents.toString();
             done();
@@ -60,7 +64,9 @@ describe('gulp-embed-json', () => {
     beforeEach((done) => {
       input = fs.readFileSync(fixtures('no-script.html'), 'utf8');
       gulp.src(fixtures('no-script.html'))
-        .pipe(embedJSON())
+        .pipe(embedJSON({
+          root: resolve(join(__dirname, '../'))
+        }))
         .pipe(through.obj((file) => {
           output = file.contents.toString();
           done();
@@ -83,7 +89,9 @@ describe('gulp-embed-json', () => {
 
     beforeEach((done) => {
       gulp.src(fixtures('nonexistent-src.html'))
-        .pipe(embedJSON())
+        .pipe(embedJSON({
+          root: resolve(join(__dirname, '../'))
+        }))
         .on('error', (err) => {
           error = err;
           done();
@@ -103,6 +111,7 @@ describe('gulp-embed-json', () => {
         beforeEach((done) => {
           gulp.src(fixtures('opt-mime.html'))
             .pipe(embedJSON({
+              root: resolve(join(__dirname, '../')),
               mimeTypes: [
                 'foo/bar'
               ]
@@ -126,6 +135,7 @@ describe('gulp-embed-json', () => {
         beforeEach((done) => {
           gulp.src(fixtures('opt-mime.html'))
             .pipe(embedJSON({
+              root: resolve(join(__dirname, '../')),
               mimeTypes: 'foo/bar'
             }))
             .pipe(through.obj((file) => {
@@ -149,6 +159,7 @@ describe('gulp-embed-json', () => {
         beforeEach((done) => {
           gulp.src(fixtures('opt-mime.html'))
             .pipe(embedJSON({
+              root: resolve(join(__dirname, '../')),
               mimeTypes: {
                 foo: 'bar'
               }
@@ -232,6 +243,7 @@ describe('gulp-embed-json', () => {
           beforeEach((done) => {
             gulp.src(fixtures('json.html'))
               .pipe(embedJSON({
+                root: resolve(join(__dirname, '../')),
                 minify: true
               }))
               .pipe(through.obj((file) => {
@@ -249,6 +261,7 @@ describe('gulp-embed-json', () => {
           beforeEach((done) => {
             gulp.src(fixtures('json.html'))
               .pipe(embedJSON({
+                root: resolve(join(__dirname, '../')),
                 minify: false
               }))
               .pipe(through.obj((file) => {
@@ -291,6 +304,7 @@ describe('gulp-embed-json', () => {
         beforeEach((done) => {
           gulp.src(fixtures('opt-encoding.html'))
             .pipe(embedJSON({
+              root: resolve(join(__dirname, '../')),
               encoding: 'ascii'
             }))
             .pipe(through.obj((file) => {

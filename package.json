@@ -2,7 +2,7 @@
   "name": "gulp-embed-json",
   "version": "1.5.0",
   "description": "Gulp plugin to inline/embed JSON data into HTML files.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "eslint **/*.js",
     "lint:ci": "eslint --format junit -o test-results/eslint/results.xml **/*.js",
