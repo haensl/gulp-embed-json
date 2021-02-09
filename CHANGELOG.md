@@ -1,3 +1,6 @@
+## 1.5.1
+* [#26: Update dependencies.](https://github.com/haensl/gulp-embed-json/issues/26)
+
 ## 1.5.0
 * [#23: Migrate to CircleCI.](https://github.com/haensl/gulp-embed-json/issues/23)
 * Internalize eslint configuration into `package.json`.
