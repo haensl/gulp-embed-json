@@ -1,6 +1,6 @@
 {
   "name": "gulp-embed-json",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Gulp plugin to inline/embed JSON data into HTML files.",
   "main": "lib/index.js",
   "scripts": {
