@@ -1,3 +1,7 @@
+## 1.5.6
+* [#36: Update dependencies.](https://github.com/haensl/gulp-embed-json/issues/36)
+* Close a security issue related to Buffer construction.
+
 ## 1.5.5
 * [#34: Update dependencies.](https://github.com/haensl/gulp-embed-json/issues/34)
 
