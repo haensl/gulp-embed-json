@@ -1,6 +1,6 @@
 {
   "name": "gulp-embed-json",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Gulp plugin to inline/embed JSON data into HTML files.",
   "main": "lib/index.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "twitter": "@h_p_d",
     "url": "https://hpdietz.com"
   },
+  "funding": "https://github.com/sponsors/haensl",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/haensl/gulp-embed-json/issues"
